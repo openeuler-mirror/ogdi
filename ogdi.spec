@@ -1,23 +1,16 @@
 Name:           ogdi
-Version:        3.2.1
-Release:        3
+Version:        4.1.0
+Release:        1
 Summary:        Open Geographic Datastore Interface
 License:        BSD
 URL:            http://ogdi.sourceforge.net/
-# https://github.com/libogdi/ogdi/archive/ogdi_3_2_1.tar.gz
-Source0:        %{name}-%{version}.tar.gz
+Source0:        https://github.com/libogdi/ogdi/archive/refs/tags/ogdi_4_1_0.tar.gz
 Source1:        http://ogdi.sourceforge.net/ogdi.pdf
 
-#To modify sprintf without a format string
-Patch0000:      ogdi-3.2.0.beta2-sailer.patch
-#To switch to libtirpc
-Patch0001:      ogdi-3.2.1-cleanup.patch
-#https://github.com/libogdi/ogdi/pull/6/
-Patch0002:      ogdi-3.2.1-rpc.patch
-Patch0003:      ogdi-3.2.1-rpc-flags.patch
+Patch0000:      ogdi-4.1.0-sailer.patch
 
 BuildRequires:  gcc unixODBC-devel zlib-devel expat-devel
-BuildRequires:  proj-devel tcl-devel libtirpc-devel
+BuildRequires:  tcl-devel libtirpc-devel
 
 %description
 OGDI is an open geographic data storage interface. OGDI is an application
@@ -50,7 +43,7 @@ Requires:       %{name} = %{version}-%{release}
 TCL wrapper for OGDI.
 
 %prep
-%autosetup -p1 -n %{name}-ogdi_3_2_1
+%autosetup -p1 -n %{name}-%{name}_4_1_0
 cp -p %{SOURCE1} .
 
 %build
@@ -60,7 +53,7 @@ export CFG=debug
 
 export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 %configure --with-binconfigs --with-expat \
-           --with-proj --with-zlib
+           --with-zlib
 
 make
 make -C ogdi/tcl_interface \
@@ -131,5 +124,8 @@ touch -r ogdi-config.in %{buildroot}%{_bindir}/%{name}-config
 
 
 %changelog
+* Sat Jan 22 2022 yaoxin <yaoxin30@huawei.com> - 4.1.0-1
+- Upgrade ogdi to 4.1.0 to solve compilation failure.
+
 * Wed Mar 04 2020 yangjian<yangjian79@huawei.com> - 3.2.1-3
 - Package init
