@@ -1,6 +1,6 @@
 Name:           ogdi
 Version:        4.1.0
-Release:        1
+Release:        2
 Summary:        Open Geographic Datastore Interface
 License:        BSD
 URL:            http://ogdi.sourceforge.net/
@@ -52,6 +52,9 @@ INST_LIB=%{_libdir}/;export INST_LIB
 export CFG=debug
 
 export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
+%if "%toolchain" == "clang"
+	export CFLAGS="$CFLAGS -Wno-int-conversion"
+%endif
 %configure --with-binconfigs --with-expat \
            --with-zlib
 
@@ -124,6 +127,9 @@ touch -r ogdi-config.in %{buildroot}%{_bindir}/%{name}-config
 
 
 %changelog
+* Sat May 06 2023 yoo <sunyuechi@iscas.ac.cn> - 4.1.0-2
+- fix clang build error
+
 * Sat Jan 22 2022 yaoxin <yaoxin30@huawei.com> - 4.1.0-1
 - Upgrade ogdi to 4.1.0 to solve compilation failure.
 
