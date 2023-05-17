@@ -53,7 +53,7 @@ export CFG=debug
 
 export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 %if "%toolchain" == "clang"
-	export CFLAGS="$CFLAGS -Wno-int-conversion"
+	export CFLAGS="$CFLAGS -Wno-error=int-conversion"
 %endif
 %configure --with-binconfigs --with-expat \
            --with-zlib
